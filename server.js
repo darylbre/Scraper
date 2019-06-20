@@ -36,24 +36,21 @@ app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
   axios.get("http://www.mtonews.com").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
-    console.log(response.data);
+    // console.log(response.data);
     var $ = cheerio.load(response.data);
 
-    // Now, we grab every h2 within an article tag, and do the following:
-    $(".h2").each(function(i, element) {
+    // Now, we grab every m-card-group within an article tag, and do the following:
+    $(".m-card-group").each(function(i, element) {
+      console.log('element', element);
+
       // Save an empty result object
       var result = {};
       // Add the text and href of every link, and save them as properties of the result object
-      result.title = $(this)
-        .children()
-        .children(".title")
+      result.title = $(this).find("a").find('h2')
         .text();
-      result.link = $(this)
-        .children()
-        .children("a")
+      result.link = $(this).find("a")
         .attr("href");
-        console.log('result: ', result);       
-        console.log('this: ', this);       
+        console.log('result: ', result);   
 
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
