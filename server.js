@@ -6,8 +6,8 @@ var axios = require("axios");
 var cheerio = require("cheerio");
 
 var db = require("./models");
-
-var PORT = 3000;
+//Checks if we're running production code
+var PORT = process.env.PORT || 3000;
 
 // Initialize Express
 var app = express();
