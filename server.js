@@ -23,10 +23,8 @@ app.use(express.json());
 app.use(express.static("public"));
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/unit18Populater", {
-  useNewUrlParser: true
-});
-
+var MONGODDB_URI = process.env.MONGODDB_URI || "mongodb://localhost/unit18Populater";
+mongoose.connect(MONGODDB_URI);
 app.get('/scrape', function(req, res) {
   // First, we grab the body of the html with axios
   axios.get('http://www.mtonews.com').then(function(response) {
